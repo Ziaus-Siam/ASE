@@ -3,6 +3,7 @@
 
 int main(int argc, char **argv)
 {
+    // sample comment
     ::testing::InitGoogleTest(&argc, argv);
     // if you plan to use GMock, replace the line above with
     // ::testing::InitGoogleMock(&argc, argv);
