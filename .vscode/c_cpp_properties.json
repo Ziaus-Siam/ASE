@@ -10,6 +10,11 @@
             "includePath": [
                 "g:/ASE/ASES_TDD/include",
                 "g:/ASE/ASES_TDD/src",
+                "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest",
+                "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googlemock",
+                "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googlemock/include",
+                "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googletest",
+                "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googletest/include",
                 ""
             ],
             "browse": {
@@ -17,6 +22,11 @@
                 "path": [
                     "g:/ASE/ASES_TDD/include",
                     "g:/ASE/ASES_TDD/src",
+                    "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest",
+                    "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googlemock",
+                    "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googlemock/include",
+                    "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googletest",
+                    "g:/ASE/ASES_TDD/.pio/libdeps/native/googletest/googletest/include",
                     ""
                 ]
             },
@@ -24,6 +34,7 @@
                 "PLATFORMIO=60105",
                 ""
             ],
+            "cppStandard": "c++11",
             "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
             "compilerArgs": [
                 ""
