@@ -11,6 +11,8 @@
 
 #include <Terminal.hpp>
 #include <iostream>
+#include <fstream>
+
 
 using namespace std;
 
@@ -28,7 +30,26 @@ void Terminal::display_message(string in_msg, bool in_newline)
 
 string Terminal::get_input()
 {
-    string msg;
-    cin >> msg;
-    return msg;
+    string val,line;
+    ifstream file;
+    ofstream temp;
+    file.open("data/input.txt");
+    temp.open("data/temp.txt");
+    if (file.is_open())
+    {
+        getline(file, val);
+    }
+    else
+    {
+        val = "";
+    }
+    while (getline(file,line))
+    {
+        temp << line;
+    }
+    temp.close();
+    file.close();
+    remove("data/input.txt");
+    rename("data/temp.txt","data/input.txt");
+    return val;
 }
