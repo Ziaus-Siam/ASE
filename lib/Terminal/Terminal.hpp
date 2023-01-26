@@ -17,6 +17,6 @@ using namespace std;
 class Terminal
 {
 public:
-    void display_message(string in_msg, bool in_newline);
+    int display_message(string in_msg, bool in_newline = false, bool rewrite = true);
     string get_input();
 };

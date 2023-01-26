@@ -13,24 +13,37 @@
 #include <iostream>
 #include <fstream>
 
-
 using namespace std;
 
-void Terminal::display_message(string in_msg, bool in_newline)
+int Terminal::display_message(string in_msg, bool in_newline, bool rewrite)
 {
-    if (in_newline)
+    ofstream file;
+    if (rewrite)
     {
-        cout << in_msg << endl;
+        file.open("data/output.txt");
     }
     else
     {
-        cout << in_msg;
+        file.open("data/output.txt", std::ios_base::app);
     }
+    if (file.is_open())
+    {
+        if (in_newline)
+        {
+            file << in_msg << endl;
+        }
+        else
+        {
+            file << in_msg;
+        }
+    }
+    file.close();
+    return 0;
 }
 
 string Terminal::get_input()
 {
-    string val,line;
+    string val, line;
     ifstream file;
     ofstream temp;
     file.open("data/input.txt");
@@ -43,13 +56,13 @@ string Terminal::get_input()
     {
         val = "";
     }
-    while (getline(file,line))
+    while (getline(file, line))
     {
         temp << line;
     }
     temp.close();
     file.close();
     remove("data/input.txt");
-    rename("data/temp.txt","data/input.txt");
+    rename("data/temp.txt", "data/input.txt");
     return val;
 }

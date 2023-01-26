@@ -15,16 +15,23 @@
 
 using namespace std;
 
-UserDatabase::UserDatabase(Terminal &in_terminal) : m_terminal(in_terminal)
+UserDatabase::UserDatabase()
 {
     //
 }
 
-int UserDatabase::read_user_db()
+int UserDatabase::set_file_path(string in_path)
+{
+    m_file_path = in_path;
+    return 0;
+}
+
+int UserDatabase::load_database()
 {
     string line;
     m_user_database.clear();
-    fstream file("data/UserDB.csv", ios::in);
+    ifstream file;
+    file.open(m_file_path);
     if (file.is_open())
     {
         while (getline(file, line))
@@ -36,32 +43,25 @@ int UserDatabase::read_user_db()
             m_user_database.push_back(user_data);
         }
         file.close();
-        return 0;
     }
     else
     {
-        m_terminal.display_message("Could not find User Database  file!!", true);
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
-user_data_t UserDatabase::get_user_data(string in_user_name)
+user_data_t UserDatabase::get_user_data(string in_user_id)
 {
     user_data_t user_data;
     for (int i = 0; i < m_user_database.size(); i++)
     {
-        if (m_user_database[i].first == in_user_name)
+        if (m_user_database[i].second == in_user_id)
         {
             user_data = m_user_database[i];
             break;
         }
     }
-
-    if (user_data.first != in_user_name)
-    {
-        m_terminal.display_message("No such user registered.", true);
-    }
-
     return user_data;
 }
 
@@ -71,10 +71,10 @@ int UserDatabase::add_user(user_data_t in_user_data)
     return 0;
 }
 
-int UserDatabase::write_user_db(bool in_rewrite)
+int UserDatabase::save_database(bool in_rewrite)
 {
     ofstream file;
-    string file_name = "data/UserDB.csv";
+    string file_name = m_file_path;
     if (in_rewrite)
     {
         file.open(file_name);
@@ -95,7 +95,7 @@ int UserDatabase::write_user_db(bool in_rewrite)
         }
         else
         {
-            int i = m_user_database.size()-1;
+            int i = m_user_database.size() - 1;
             file << m_user_database[i].first << ',' << m_user_database[i].second << endl;
         }
         file.close();
@@ -104,45 +104,27 @@ int UserDatabase::write_user_db(bool in_rewrite)
     return 1;
 }
 
-int UserDatabase::register_new_user()
+int UserDatabase::register_new_user(string in_user_name, string in_user_id)
 {
-    m_terminal.display_message("Enter new user name: ", true);
-    string user_name = m_terminal.get_input();
-    if (user_name.size() > 10)
-    {
-        m_terminal.display_message("Max length for name is 10. Limit Exceeded.", true);
-        return 1;
-    }
-    m_terminal.display_message("Enter new user id: ", true);
-    string user_id = m_terminal.get_input();
-    if (user_id.size() > 5)
-    {
-        m_terminal.display_message("Max length for ID is 5. Limit Exceeded.", true);
-        return 1;
-    }
     for (int i = 0; i < m_user_database.size(); i++)
     {
-        if (m_user_database[i].second == user_id)
+        if (m_user_database[i].second == in_user_id)
         {
-            m_terminal.display_message("A user is already registered with this ID.", true);
             return 1;
         }
     }
-    user_data_t user_data(user_name, user_id);
+    user_data_t user_data(in_user_name, in_user_id);
     add_user(user_data);
-    write_user_db();
-    m_terminal.display_message("Registration Succesfull.", true);
+    save_database();
     return 0;
 }
 
-int UserDatabase::remove_user()
+int UserDatabase::remove_user(string in_user_id)
 {
-    m_terminal.display_message("Enter registered user name: ", true);
-    string user_name = m_terminal.get_input();
     bool found = false;
     for (int i = 0; i < m_user_database.size(); i++)
     {
-        if (m_user_database[i].first == user_name)
+        if (m_user_database[i].second == in_user_id)
         {
             m_user_database.erase(m_user_database.begin() + i);
             found = true;
@@ -151,34 +133,24 @@ int UserDatabase::remove_user()
     }
     if (!found)
     {
-        m_terminal.display_message("No such user is registered in Database.", true);
         return 1;
     }
-    write_user_db(true);
+    save_database(true);
     return 0;
 }
 
-int UserDatabase::view_all_users()
+string UserDatabase::view_all_users()
 {
-    ofstream file;
-    file.open("data/output.txt");
-    if (file.is_open())
+    string output;
+    output = "REGISTERED USERS\n\n";
+    output += "Employee ID   ";
+    output += "NAME\n";
+    for (int i = 0; i < m_user_database.size(); i++)
     {
-        file << "REGISTERED USERS\n"
-             << endl;
-        file << "Employee ID   "
-             << "NAME" << endl;
-        for (int i = 0; i < m_user_database.size(); i++)
-        {
-            file << m_user_database[i].second;
-            file << "         ";
-            file << m_user_database[i].first << endl;
-        }
+        output += m_user_database[i].second;
+        output += "         ";
+        output += m_user_database[i].first;
+        output += "\n";
     }
-    else
-    {
-        m_terminal.display_message("Cannot find database!!", true);
-        return 1;
-    }
-    return 0;
+    return output;
 }

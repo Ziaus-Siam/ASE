@@ -15,22 +15,24 @@
 #include <../../include/typedefs.hpp>
 #include <vector>
 #include <iostream>
+#include <base_db.hpp>
 
 using namespace std;
 
-class UserDatabase
+class UserDatabase : public Database
 {
 private:
+    string m_file_path;
     vector<user_data_t> m_user_database;
-    Terminal &m_terminal;
 
 public:
-    UserDatabase(Terminal &in_terminal);
-    int read_user_db();
+    UserDatabase();
+    int load_database();
+    int save_database(bool in_rewrite = false);
+    int set_file_path(string in_path);
     user_data_t get_user_data(string in_user_name);
     int add_user(user_data_t in_user_data);
-    int write_user_db(bool in_rewrite = false);
-    int register_new_user();
-    int remove_user();
-    int view_all_users();
+    int register_new_user(string in_user_name, string in_user_id);
+    int remove_user(string in_user_id);
+    string view_all_users();
 };

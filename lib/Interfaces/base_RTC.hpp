@@ -1,5 +1,5 @@
 /**
- * @file RTC.hpp
+ * @file base_RTC.hpp
  * @author Muhammad Ziaus Siam (ziaus.siam@bjitgroup.com)
  * @brief 
  * @version 1.0
@@ -10,17 +10,10 @@
  */
 #pragma once
 
-#include <string>
-
-
 using namespace std;
 
-class RTC
+class BaseRTC
 {
-private:
-    string time;
 public:
-    // string get_time();
-    // string set_time();
-    // string get_worked_time();
+    virtual long long get_time() = 0;
 };

@@ -20,17 +20,14 @@
 class TestUserDBInput : public ::testing::Test
 {
 protected:
-    Terminal terminal;
-    UserDatabase *userdb;
+    UserDatabase userdb;
 
     void SetUp() override
     {
-        GTEST_SKIP();
-        UserDatabase st(terminal);
-        userdb = &st;
         fstream file("data/UserDB.csv", ios::out);
         file << "Siam,11527" << endl;
         file.close();
+        userdb.set_file_path("data/UserDB.csv");
     }
 
     void TearDown() override
@@ -40,17 +37,15 @@ protected:
 
 TEST_F(TestUserDBInput, read_user_database)
 {
-    UserDatabase userdb(terminal);
     user_data_t user_data;
-    ASSERT_EQ(userdb.read_user_db(), 0);
+    ASSERT_EQ(userdb.load_database(), 0);
 }
 
 TEST_F(TestUserDBInput, get_user_data)
 {
-    UserDatabase userdb(terminal);
     user_data_t user_data;
-    userdb.read_user_db();
-    user_data = userdb.get_user_data("Siam");
+    userdb.load_database();
+    user_data = userdb.get_user_data("11527");
     ASSERT_EQ(user_data.first, "Siam");
     ASSERT_EQ(user_data.second, "11527");
 }
