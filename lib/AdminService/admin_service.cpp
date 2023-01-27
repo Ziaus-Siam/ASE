@@ -11,6 +11,7 @@
 
 #include <admin_service.hpp>
 #include <iostream>
+// #include <conio.h>
 
 using namespace std;
 
@@ -47,6 +48,8 @@ int AdminService::login()
 int AdminService::logout()
 {
     m_authorized = false;
+    m_terminal.display_message("Admin logged out.", true, true);
+
     return 0;
 }
 
@@ -62,94 +65,113 @@ int AdminService::show_menu()
     return 0;
 }
 
+int AdminService::load_database()
+{
+    m_userdb.load_database();
+    m_entrylog.load_database();
+
+    return 0;
+}
+
 int AdminService::view_registered_users()
 {
     string output = m_userdb.view_all_users();
-    cout << output;
     m_terminal.display_message(output, false, true);
 
     return 0;
 }
 
-void AdminService::load_database()
+int AdminService::register_new_user()
 {
-    m_userdb.load_database();
+    m_terminal.display_message("Enter new User Name:", true, true);
+    string user_name = m_terminal.get_input();
+    m_terminal.display_message("Enter new User ID:", true, false);
+    string user_ID = m_terminal.get_input();
+
+    if (user_name.size() > 10)
+    {
+        m_terminal.display_message("Max allowed size for user name is 10. Limit exceeded.", true, false);
+        return 1;
+    }
+
+    if (user_ID.size() > 5)
+    {
+        m_terminal.display_message("Max allowed size for user ID is 5. Limit exceeded.", true, false);
+        return 1;
+    }
+
+    int res = m_userdb.register_new_user(user_name, user_ID);
+    if (res == 0)
+    {
+        m_terminal.display_message("Registration Successful.", true, false);
+    }
+    else
+    {
+        m_terminal.display_message("User already registered.", true, false);
+    }
+
+    return 0;
+}
+
+int AdminService::remove_registered_user()
+{
+    m_terminal.display_message("Enter user id to remove.", true, true);
+    string user_ID = m_terminal.get_input();
+    int res = m_userdb.remove_user(user_ID);
+
+    if (res == 0)
+    {
+        m_terminal.display_message("User removed from database.", true, false);
+    }
+    else
+    {
+        m_terminal.display_message("User not found.", true, false);
+    }
+
+    return 0;
+}
+
+int AdminService::get_last_ten_logs()
+{
+    string output = m_entrylog.get_last_ten_logs();
+    m_terminal.display_message(output, false, true);
+
+    return 0;
 }
 
 int AdminService::run()
 {
     login();
-    m_userdb.load_database();
     while (m_authorized)
     {
         show_menu();
         string choice = m_terminal.get_input();
         if (choice == "1")
         {
-            m_userdb.view_all_users();
+            view_registered_users();
         }
         else if (choice == "2")
         {
-            bool wrong_input = false;
-            m_terminal.display_message("Enter new User Name:", true, true);
-            string user_name = m_terminal.get_input();
-            m_terminal.display_message("Enter new User ID:", true, false);
-            string user_ID = m_terminal.get_input();
-
-            if (user_name.size() > 10)
-            {
-                m_terminal.display_message("Max allowed size for user name is 10. Limit exceeded.", true, false);
-                wrong_input = true;
-            }
-
-            if (user_ID.size() > 5)
-            {
-                m_terminal.display_message("Max allowed size for user ID is 5. Limit exceeded.", true, false);
-                wrong_input = true;
-            }
-
-            if (!wrong_input)
-            {
-                int res = m_userdb.register_new_user(user_name, user_ID);
-                if (res == 0)
-                {
-                    m_terminal.display_message("Registration Successful.", true, false);
-                }
-                else
-                {
-                    m_terminal.display_message("User already registered.", true, false);
-                }
-            }
+            register_new_user();
         }
         else if (choice == "3")
         {
-            m_terminal.display_message("Enter user id to remove.", true, true);
-            string user_ID = m_terminal.get_input();
-            int res = m_userdb.remove_user(user_ID);
-
-            if (res == 0)
-            {
-                m_terminal.display_message("User removed from database.", true, false);
-            }
-            else
-            {
-                m_terminal.display_message("User not found.", true, false);
-            }
-
+            remove_registered_user();
         }
         else if (choice == "4")
         {
-            string output = m_entrylog.get_last_ten_logs();
-            m_terminal.display_message(output, false, true);
+            get_last_ten_logs();
         }
         else if (choice == "5")
         {
             logout();
-            m_terminal.display_message("Admin logged out.", true, true);
             break;
         }
-        m_terminal.display_message("Press Enter to continue.", true, false);
-        choice = m_terminal.get_input();
+
+        m_terminal.display_message("\nPress Enter to continue.\n", true, false);
+        cin.get();
+        cin.get();
     }
+
     return true;
 }

@@ -46,6 +46,7 @@ int UserDatabase::load_database()
     }
     else
     {
+        cout << "here\n";
         return 1;
     }
     return 0;

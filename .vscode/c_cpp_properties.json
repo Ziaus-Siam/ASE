@@ -10,6 +10,7 @@
             "includePath": [
                 "g:/ASE/ASES_TDD/include",
                 "g:/ASE/ASES_TDD/src",
+                "g:/ASE/ASES_TDD/lib/ASES",
                 "g:/ASE/ASES_TDD/lib/AdminService",
                 "g:/ASE/ASES_TDD/lib/EntryLog",
                 "g:/ASE/ASES_TDD/lib/Interfaces",
@@ -28,6 +29,7 @@
                 "path": [
                     "g:/ASE/ASES_TDD/include",
                     "g:/ASE/ASES_TDD/src",
+                    "g:/ASE/ASES_TDD/lib/ASES",
                     "g:/ASE/ASES_TDD/lib/AdminService",
                     "g:/ASE/ASES_TDD/lib/EntryLog",
                     "g:/ASE/ASES_TDD/lib/Interfaces",
@@ -43,7 +45,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60105",
+                "PLATFORMIO=60106",
                 ""
             ],
             "cppStandard": "c++11",

@@ -33,13 +33,16 @@ public:
     AdminService(RTC &, Terminal &, UserDatabase &, EntryLog &);
     void set_user_db_path(string in_path) { m_userdb.set_file_path(in_path); }
     void set_entrylog_db_path(string in_path) { m_entrylog.set_file_path(in_path); }
-    void load_database();
     
     int login();
     int logout();
     int show_menu();
+    int load_database();
     int view_registered_users();
+    int register_new_user();
+    int remove_registered_user();
+    int get_last_ten_logs();
     int run();
 
-    friend bool spy_admin_login(AdminService *in_AS);
+    friend bool spy_admin_login(AdminService in_AS);
 };

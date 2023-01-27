@@ -95,7 +95,7 @@ string EntryLog::get_last_ten_logs()
     string output;
     int start_size = max((int)m_entry_log.size() - 10, 0);
     int end_size = m_entry_log.size();
-    for (int i = start_size; i < end_size; i++)
+    for (int i = end_size-1; i >= start_size; i--)
     {
         string user_name = get<0>(m_entry_log[i]).first;
         string user_id = get<0>(m_entry_log[i]).second;

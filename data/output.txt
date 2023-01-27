@@ -1,8 +1,1 @@
-
-Admin Menu:
-  1. View registered users.
-  2. Register new user.
-  3. Delete registered user.
-  4. Show last 10 entry logs.
-  5. Exit.
-
+Wrong username or password

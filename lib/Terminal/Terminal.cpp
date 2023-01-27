@@ -15,6 +15,8 @@
 
 using namespace std;
 
+#if 0
+
 int Terminal::display_message(string in_msg, bool in_newline, bool rewrite)
 {
     ofstream file;
@@ -66,3 +68,29 @@ string Terminal::get_input()
     rename("data/temp.txt", "data/input.txt");
     return val;
 }
+#else
+
+int Terminal::display_message(string in_msg, bool in_newline, bool rewrite)
+{
+    if (in_newline)
+    {
+        cout << in_msg << endl;
+    }
+    else
+    {
+        cout << in_msg;
+    }
+
+    return 0;
+}
+
+
+string Terminal::get_input()
+{
+
+    string output;
+    cin >> output;
+    return output;
+}
+
+#endif
