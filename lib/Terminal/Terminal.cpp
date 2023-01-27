@@ -89,7 +89,7 @@ string Terminal::get_input()
 {
 
     string output;
-    cin >> output;
+    getline(cin, output);
     return output;
 }
 

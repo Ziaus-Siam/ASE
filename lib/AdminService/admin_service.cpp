@@ -87,19 +87,22 @@ int AdminService::register_new_user()
     string user_name = m_terminal.get_input();
     m_terminal.display_message("Enter new User ID:", true, false);
     string user_ID = m_terminal.get_input();
-
+    bool error = false;
     if (user_name.size() > 10)
     {
         m_terminal.display_message("Max allowed size for user name is 10. Limit exceeded.", true, false);
-        return 1;
+        error = true;
     }
 
     if (user_ID.size() > 5)
     {
         m_terminal.display_message("Max allowed size for user ID is 5. Limit exceeded.", true, false);
+        error = true;
+    }
+    if (error)
+    {
         return 1;
     }
-
     int res = m_userdb.register_new_user(user_name, user_ID);
     if (res == 0)
     {
@@ -169,7 +172,6 @@ int AdminService::run()
         }
 
         m_terminal.display_message("\nPress Enter to continue.\n", true, false);
-        cin.get();
         cin.get();
     }
 
