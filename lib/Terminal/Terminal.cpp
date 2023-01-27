@@ -74,11 +74,11 @@ int Terminal::display_message(string in_msg, bool in_newline, bool rewrite)
 {
     if (in_newline)
     {
-        cout << in_msg << endl;
+        cout  << ' ' << in_msg << endl;
     }
     else
     {
-        cout << in_msg;
+        cout  << ' '  << in_msg;
     }
 
     return 0;

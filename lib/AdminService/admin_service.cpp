@@ -57,11 +57,11 @@ int AdminService::show_menu()
 {
 
     m_terminal.display_message("\nAdmin Menu:", true, true);
-    m_terminal.display_message("  1. View registered users.", true, false);
-    m_terminal.display_message("  2. Register new user.", true, false);
-    m_terminal.display_message("  3. Delete registered user.", true, false);
-    m_terminal.display_message("  4. Show last 10 entry logs.", true, false);
-    m_terminal.display_message("  5. Exit.\n", true, false);
+    m_terminal.display_message("\t1. View registered users.", true, false);
+    m_terminal.display_message("\t2. Register new user.", true, false);
+    m_terminal.display_message("\t3. Delete registered user.", true, false);
+    m_terminal.display_message("\t4. Show last 10 entry logs.", true, false);
+    m_terminal.display_message("\t5. Exit.\n", true, false);
     return 0;
 }
 
@@ -83,9 +83,9 @@ int AdminService::view_registered_users()
 
 int AdminService::register_new_user()
 {
-    m_terminal.display_message("Enter new User Name:", true, true);
+    m_terminal.display_message("Enter user name (Max 11 letters): ", false, true);
     string user_name = m_terminal.get_input();
-    m_terminal.display_message("Enter new User ID:", true, false);
+    m_terminal.display_message("Enter user ID (Max 5 digits)    : ", false, false);
     string user_ID = m_terminal.get_input();
     bool error = false;
     if (user_name.size() > 10)
@@ -148,6 +148,7 @@ int AdminService::run()
     while (m_authorized)
     {
         show_menu();
+        m_terminal.display_message("Option: ",false);
         string choice = m_terminal.get_input();
         if (choice == "1")
         {

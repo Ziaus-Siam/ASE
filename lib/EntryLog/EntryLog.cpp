@@ -95,6 +95,7 @@ string EntryLog::get_last_ten_logs()
     string output;
     int start_size = max((int)m_entry_log.size() - 10, 0);
     int end_size = m_entry_log.size();
+    output = "Employee_ID  Employee_Name  CheckIn  CheckOut  Work_hour\n";
     for (int i = end_size-1; i >= start_size; i--)
     {
         string user_name = get<0>(m_entry_log[i]).first;
@@ -107,8 +108,13 @@ string EntryLog::get_last_ten_logs()
 
         time_t worked_time = get<3>(m_entry_log[i]);
         string converted_time3 = convert_worked_time_to_string(worked_time);
-
-        string result = user_name + "  " + user_id + "  " + converted_time + "  " + converted_time2 + "  " + converted_time3 + "\n";
+        stringstream ss;
+        ss << " " << user_id << setw(12) << setfill(' ');
+        ss << user_name << setw(16) << setfill(' ');
+        ss << converted_time << setw(9) << setfill(' ');
+        ss << converted_time2 << setw(10) << setfill(' ');
+        ss << converted_time3 << setw(9) << setfill(' ') << '\n';
+        string result = ss.str();
         output += result;
     }
     return output;
